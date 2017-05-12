@@ -303,11 +303,23 @@ export function allowAdditionalItems(schema) {
   return isObject(schema.additionalItems);
 }
 
-export function optionsList(schema) {
-  return schema.enum.map((value, i) => {
-    const label = (schema.enumNames && schema.enumNames[i]) || String(value);
-    return { label, value };
+export function enumToSchemas(enumValues, enumNames) {
+  return enumValues.map((value, i) => {
+    return {
+      title: (enumNames && enumNames[i]) || String(value),
+      enum: [value],
+    };
   });
+}
+
+export function optionsList(schema) {
+  if (schema.enum) {
+    return enumToSchemas(schema.enum, schema.enumNames);
+  } else if (schema.oneOf) {
+    return schema.oneOf;
+  } else if (schema.anyOf) {
+    return schema.anyOf;
+  }
 }
 
 function findSchemaDefinition($ref, definitions = {}) {

@@ -56,6 +56,7 @@ module.exports = {
         title: "Blend mode",
         type: "string",
         enum: ["screen", "multiply", "overlay"],
+        enumNames: ["Screen", "Multiply", "Overlay"],
       },
     },
   },
